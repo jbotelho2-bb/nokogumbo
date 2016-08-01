@@ -9,17 +9,15 @@ env:
   - WITH_LIBXML=true
   - WITH_LIBXML=false
 before_script: |
-  if [[ "$WITH_LIBXML" == "true" ]]; then
-    # OS X doesn't have libxml by default, so install it
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install libxml2
-    fi
-  # WITH_LIBXML=false
-  else
-    # Ubuntu/Linux has libxml installed by default, so remove it
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo apt-get remove libxml2-dev
-    fi
+  if [[ "$WITH_LIBXML" == "false" ]]; then
+    case "$TRAVIS_OS_NAME" in
+      linux)
+        sudo apt-get remove libxml2-dev
+        ;;
+      osx)
+        brew install libxml2
+        ;;
+    esac
   fi
 os:
   - linux
