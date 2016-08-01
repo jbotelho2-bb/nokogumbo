@@ -15,7 +15,7 @@ before_script: |
         sudo apt-get remove libxml2-dev
         ;;
       osx)
-        brew install libxml2
+        brew uninstall libxml2
         ;;
     esac
   fi
