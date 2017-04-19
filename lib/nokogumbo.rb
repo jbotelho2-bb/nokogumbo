@@ -16,6 +16,8 @@ module Nokogiri
         string = string.read
       end
 
+      foo = {"a": 1}
+
       # convert to UTF-8 (Ruby 1.9+) 
       if string.respond_to?(:encoding) and string.encoding != Encoding::UTF_8
         string = reencode(string)
@@ -32,12 +34,12 @@ module Nokogiri
     #  * :follow_limit => number of redirects which are followed
     #  * :basic_auth => [username, password]
     def self.get(uri, options={})
-      headers = options.clone
-      headers = {:follow_limit => headers} if Numeric === headers # deprecated
-      limit=headers[:follow_limit] ? headers.delete(:follow_limit).to_i : 10
+          headers = options.clone
+          headers = {:follow_limit => headers} if Numeric === headers # deprecated
+          limit=headers[:follow_limit] ? headers.delete(:follow_limit).to_i : 10
 
-      require 'net/http'
-      uri = URI(uri) unless URI === uri
+          require 'net/http'
+          uri = URI(uri) unless URI === uri
 
       http = Net::HTTP.new(uri.host, uri.port)
 
@@ -53,7 +55,8 @@ module Nokogiri
         http.send "#{key}=", headers.delete(key) if http.respond_to? "#{key}="
       end
 
-      request = Net::HTTP::Get.new(uri.request_uri)
+      request = \ 
+              Net::HTTP::Get.new(uri.request_uri)
 
       # basic authentication
       auth = headers.delete(:basic_auth)
